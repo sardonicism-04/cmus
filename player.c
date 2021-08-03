@@ -38,6 +38,7 @@
 #include <sys/time.h>
 #include <stdarg.h>
 #include <math.h>
+#include <libnotify/notify.h>
 
 const char * const player_status_names[] = {
 	"stopped", "playing", "paused", NULL
@@ -700,6 +701,16 @@ static void _producer_pause(void)
 
 static void _producer_set_file(struct track_info *ti)
 {
+	NotifyNotification *notif;
+    notify_init("cmus");
+	char buffer[256];
+	snprintf(buffer, sizeof buffer, "%s - %s", ti->artist, ti->album);
+
+    notif = notify_notification_new(ti->title, buffer, NULL);
+	NotifyUrgency urgency = NOTIFY_URGENCY_LOW;
+	notify_notification_set_urgency(notif, urgency);
+    notify_notification_show(notif, 0);
+
 	_producer_unload();
 	ip = ip_new(ti->filename);
 	_producer_status_update(PS_STOPPED);
