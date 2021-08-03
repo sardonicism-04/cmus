@@ -702,14 +702,14 @@ static void _producer_pause(void)
 static void _producer_set_file(struct track_info *ti)
 {
 	NotifyNotification *notif;
-    notify_init("cmus");
+	notify_init("cmus");
 	char buffer[256];
 	snprintf(buffer, sizeof buffer, "%s - %s", ti->artist, ti->album);
 
-    notif = notify_notification_new(ti->title, buffer, NULL);
+	notif = notify_notification_new(ti->title, buffer, NULL);
 	NotifyUrgency urgency = NOTIFY_URGENCY_LOW;
 	notify_notification_set_urgency(notif, urgency);
-    notify_notification_show(notif, 0);
+	notify_notification_show(notif, 0);
 
 	_producer_unload();
 	ip = ip_new(ti->filename);
